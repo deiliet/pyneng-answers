@@ -19,3 +19,9 @@
 '''
 
 ip = '192.168.3.1'
+res = ip.split('.')
+table = f"""\033[93m
+{res[0]:10}{res[1]:10}{res[2]:10}{res[3]:10}
+{int(res[0]):08b}  {int(res[1]):08b}  {int(res[2]):08b}  {int(res[3]):08b}
+"""
+print(table)

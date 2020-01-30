@@ -10,3 +10,6 @@
 '''
 
 mac = 'AAAA:BBBB:CCCC'
+result = mac.split(':')
+binary = bin(int(result[0], 16))[2:] + bin(int(result[1], 16))[2:] + bin(int(result[2], 16))[2:]
+print(f"\033[93m{binary}")

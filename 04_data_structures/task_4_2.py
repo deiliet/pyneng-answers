@@ -9,3 +9,5 @@
 '''
 
 mac = 'AAAA:BBBB:CCCC'
+mac = mac.replace(':', '.')
+print(f"\033[93m{mac}")
