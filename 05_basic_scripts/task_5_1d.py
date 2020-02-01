@@ -43,3 +43,8 @@ london_co = {
         'routing': True
     }
 }
+
+key = input('Введите имя устройства: ')
+buff = f"{london_co[key].keys()}".replace('\'', '').replace('[', '').replace(']', '')[9:]
+opt = input(f'Введите имя параметра {buff}: ').lower()
+print(f"\033[93m{london_co[key][opt]}")
