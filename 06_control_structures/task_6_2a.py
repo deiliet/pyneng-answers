@@ -31,8 +31,7 @@ else:
     if len(octet_list) == 4 and correct:
         if (octet_list[0] >= 1) and (octet_list[0] <= 223):
             print(f"\033[93m{'unicast'}")
-        elif (octet_list[0] >= 224) \
-                and (octet_list[0] <= 239):
+        elif (octet_list[0] >= 224) and (octet_list[0] <= 239):
             print(f"\033[93m{'multicast'}")
         elif (octet_list[0] == 255) \
                 and (octet_list[1] == 255) \
