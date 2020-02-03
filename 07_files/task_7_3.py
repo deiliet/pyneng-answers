@@ -17,3 +17,9 @@
 Ограничение: Все задания надо выполнять используя только пройденные темы.
 
 '''
+
+with open('CAM_table.txt', 'r') as cam_table:
+    for line in cam_table:
+        if 'DYNAMIC' in line:
+            vlan, mac_add, _, port = line.split()
+            print(f"\033[93m{vlan:<7}{mac_add}{port:>8}")
