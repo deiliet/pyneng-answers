@@ -76,7 +76,6 @@ def generate_access_config(intf_vlan_mapping, access_template):
     return config_list
 
 
-# А мы возьмем да сделаем с переводом строки!!! Наташка прости!!!
-print('\n'.join(generate_access_config(access_config, access_mode_template)))
-
-
+if __name__ == '__main__':
+    # А мы возьмем да сделаем с переводом строки!!! Наташка прости!!!
+    print('\n'.join(generate_access_config(access_config, access_mode_template)))
