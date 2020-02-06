@@ -30,16 +30,17 @@ R6           Fa 0/2          143           R S I           2811       Fa 0/0
 
 from pprint import pprint
 
-
 def parse_cdp_neighbors(command_output):
     cdp_dict = {}
     device = ""
-    for line in command_output.split("\n"):
+    numerate_list = enumerate(command_output.split("\n"))
+    for position, line in numerate_list:
         if ">" in line:
             device = line.split(">")[0]
             continue
-        if "R S I" in line:
-            nei_dev, local_int_type, local_int_num, *_, nei_int_type, nei_int_num = line.split()
+        if "/" in line:
+            line_buff = line.split()
+            nei_dev, local_int_type, local_int_num, *_, nei_int_type, nei_int_num = line_buff
             cdp_dict[(device, local_int_type+local_int_num)] = (nei_dev, nei_int_type+nei_int_num)
     return cdp_dict
 
