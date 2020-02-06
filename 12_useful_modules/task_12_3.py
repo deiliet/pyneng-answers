@@ -22,6 +22,28 @@ Reachable    Unreachable
 
 
 Для этого задания нет тестов
+
+Supported table formats are:
+
+"plain"
+"simple"
+"github"
+"grid"
+"fancy_grid"
+"pipe"
+"orgtbl"
+"jira"
+"presto"
+"psql"
+"rst"
+"mediawiki"
+"moinmoin"
+"youtrack"
+"html"
+"latex"
+"latex_raw"
+"latex_booktabs"
+"textile"
 '''
 
 
@@ -30,7 +52,7 @@ from tabulate import tabulate
 
 def print_ip_table(reachable_list, unreachable_list):
     print(tabulate({"Reachable": reachable_list, "Unreachable": unreachable_list},
-                   headers="keys", tablefmt="pipe", stralign='center'))
+                   headers="keys", tablefmt="psql", stralign='center'))
     return None
 
 
