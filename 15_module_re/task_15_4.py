@@ -27,6 +27,7 @@ import re
 from pprint import pprint
 
 
+"""
 def get_ints_without_description(filename):
     no_description_list = []
     regexp = r"^interface (\S+)\n(?! description)"
@@ -34,6 +35,15 @@ def get_ints_without_description(filename):
         for match_index in re.finditer(regexp, file.read(), re.MULTILINE):
             if match_index:
                 no_description_list.append(match_index.group(1))
+    return no_description_list
+"""
+
+
+def get_ints_without_description(filename):
+    regexp = r"^interface (\S+)\n(?! description)"
+    with open(filename) as file:
+        no_description_list = [match.group(1) for match in
+                               re.finditer(regexp, file.read(), re.MULTILINE)]
     return no_description_list
 
 
