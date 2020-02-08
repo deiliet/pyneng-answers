@@ -31,7 +31,7 @@ def get_ints_without_description(filename):
     no_description_list = []
     regexp = r"^interface (\S+)\n(?! description)"
     with open(filename) as file:
-        for match_index in re.finditer(regexp, file.read(), re.MULTILINE | re.DOTALL):
+        for match_index in re.finditer(regexp, file.read(), re.MULTILINE):
             if match_index:
                 no_description_list.append(match_index.group(1))
     return no_description_list
