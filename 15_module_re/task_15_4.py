@@ -29,19 +29,11 @@ from pprint import pprint
 
 def get_ints_without_description(filename):
     no_description_list = []
-    regex = r"(?:^interface (\S+)|description (\S+))"
-    interface = ""
+    regexp = r"^interface (\S+)\n(?! description)"
     with open(filename) as file:
-        for line in file:
-            match = re.search(regex, line)
-            if match and match.lastindex == 1:
-                interface = match.group(match.lastindex)
-            elif interface and match and match.lastindex == 2:
-                interface = ""
-            elif interface != "":
-                no_description_list.append(interface)
-                interface = ""
-
+        for match_index in re.finditer(regexp, file.read(), re.MULTILINE | re.DOTALL):
+            if match_index:
+                no_description_list.append(match_index.group(1))
     return no_description_list
 
 
