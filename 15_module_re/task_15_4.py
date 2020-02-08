@@ -26,6 +26,22 @@ interface Loopback0
 import re
 from pprint import pprint
 
+"""
+def get_ints_without_description(filename):
+    no_description_list = []
+    regex = r"(?:^interface (\S+)|description (\S+))"
+    interface = ""
+    with open(filename) as file:
+        for line in file:
+            match = re.search(regex,line)
+            if match and match.lastindex == 1:
+                interface = match.group(match.lastindex)
+            elif interface and match and match.lastindex == 2:
+                interface = ""
+            elif interface != "":
+                result.append(interface)
+                interface = ""
+"""
 
 """
 def get_ints_without_description(filename):
