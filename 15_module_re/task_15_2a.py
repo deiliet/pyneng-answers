@@ -26,4 +26,17 @@
 Ограничение: Все задания надо выполнять используя только пройденные темы.
 '''
 
-headers = ['interface', 'address', 'status', 'protocol']
+
+def convert_to_dict(headers_list, int_br_list):
+    list_headrs_int_br = []
+    for item in int_br_list:
+        list_headrs_int_br.append(dict(zip(headers_list, item)))
+    return list_headrs_int_br
+
+
+if __name__ == "__main__":
+
+    from task_15_2 import parse_sh_ip_int_br
+
+    headers = ['interface', 'address', 'status', 'protocol']
+    print(convert_to_dict(headers, parse_sh_ip_int_br("sh_ip_int_br.txt")))

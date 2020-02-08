@@ -23,3 +23,27 @@ interface Loopback0
 Проверить работу функции на примере файла config_r1.txt.
 '''
 
+import re
+from pprint import pprint
+
+
+def get_ints_without_description(filename):
+    no_description_list = []
+    regex = r"(?:^interface (\S+)|description (\S+))"
+    interface = ""
+    with open(filename) as file:
+        for line in file:
+            match = re.search(regex, line)
+            if match and match.lastindex == 1:
+                interface = match.group(match.lastindex)
+            elif interface and match and match.lastindex == 2:
+                interface = ""
+            elif interface != "":
+                no_description_list.append(interface)
+                interface = ""
+
+    return no_description_list
+
+
+if __name__ == "__main__":
+    pprint(get_ints_without_description("config_r1.txt"))

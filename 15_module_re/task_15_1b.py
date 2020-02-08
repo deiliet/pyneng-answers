@@ -26,3 +26,25 @@ Ethernet0/1 соответствует список из двух кортеже
 
 '''
 
+import re
+
+
+def get_ip_from_cfg(filename):
+    prefix_dict = {}
+    regexp_interface = r'interface (?P<int>\S+)'
+    regexp_prefix = r'ip address (?P<ip>(?:\d{1,3}\.){3}\d{1,3})\s(?P<mask>(?:\d{1,3}\.){3}\d{1,3})'
+    with open(filename) as file:
+        for line in file:
+            match = re.search(regexp_interface, line)
+            if match:
+                interface_key = match.group('int')
+            match = re.search(regexp_prefix, line)
+            if match:
+                if not prefix_dict.get(interface_key):
+                    prefix_dict[interface_key] = []
+                prefix_dict[interface_key].append((match.group('ip'), match.group('mask')))
+    return prefix_dict
+
+
+if __name__ == "__main__":
+    print(get_ip_from_cfg("config_r2.txt"))
