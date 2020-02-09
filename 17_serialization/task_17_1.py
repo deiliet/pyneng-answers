@@ -39,9 +39,48 @@
 Кроме того, создан список заголовков (headers), который должен быть записан в CSV.
 '''
 
-import glob
+import re
+import csv
 
-sh_version_files = glob.glob('sh_vers*')
-#print(sh_version_files)
 
-headers = ['hostname', 'ios', 'image', 'uptime']
+def parse_sh_version(file_single_line):
+    params_list = []
+    regex_dict = {'ios': r'Cisco IOS Software, .+Version (?P<ios>[\d,\S]+),',
+                  'image': r'System image file is "(?P<image>[\d,\S]+)"',
+                  'uptime': r'router uptime is (?P<uptime>.+)'}
+    for key in regex_dict:
+        match = re.search(regex_dict[key], file_single_line)
+        if match:
+            params_list.append(match.group(key))
+    return tuple(params_list)
+
+
+def write_inventory_to_csv(data_filenames, csv_filename):
+    headers = ['hostname', 'ios', 'image', 'uptime']
+    regex_hostname = r'sh_version_(?P<hostname>[\d,\S]+)\.txt'
+    params_list = []
+    buffer_list = []
+    params_list.append(headers)
+    for filename in data_filenames:
+        match = re.search(regex_hostname, filename)
+        if match:
+            buffer_list.append(match.group('hostname'))
+        with open(filename) as file:
+            for item in parse_sh_version(file.read()):
+                buffer_list.append(item)
+            params_list.append(buffer_list)
+            buffer_list = []
+    with open(csv_filename, 'w') as file:
+        writer = csv.writer(file)
+        for row in params_list:
+            writer.writerow(row)
+    return None
+
+
+if __name__ == "__main__":
+
+    import glob
+
+    sh_version_files = glob.glob('sh_vers*')
+    write_inventory_to_csv(sh_version_files, 'routers_inventory.csv')
+
