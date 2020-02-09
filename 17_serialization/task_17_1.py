@@ -81,6 +81,7 @@ if __name__ == "__main__":
 
     import glob
 
-    sh_version_files = glob.glob('sh_vers*')
+    sh_version_files = sorted(glob.glob('sh_vers*'))
+    # sh_version_files.sort()
     write_inventory_to_csv(sh_version_files, 'routers_inventory.csv')
 
