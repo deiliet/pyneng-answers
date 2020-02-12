@@ -31,3 +31,22 @@
 > pip install graphviz
 
 '''
+
+import pprint
+import yaml
+from pprint import pprint
+
+
+def transform_topology(yaml_filename):
+    buffer_dict = {}
+    cdp_dict = {}
+    with open(yaml_filename) as file:
+        yaml_file = yaml.safe_load(file)
+        for local_device in yaml_file:
+            for local_port in yaml_file[local_device]:
+                for remote_device in yaml_file[local_device][local_port]:
+                    remote_port = yaml_file[local_device][local_port][remote_device]
+                    buffer_dict[(local_device, local_port)] = (remote_device, remote_port)
+    return buffer_dict
+
+pprint(transform_topology('topology.yaml'))
