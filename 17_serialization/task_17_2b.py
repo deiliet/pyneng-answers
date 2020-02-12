@@ -47,6 +47,9 @@ def transform_topology(yaml_filename):
                 for remote_device in yaml_file[local_device][local_port]:
                     remote_port = yaml_file[local_device][local_port][remote_device]
                     buffer_dict[(local_device, local_port)] = (remote_device, remote_port)
-    return buffer_dict
+    for key, value in buffer_dict.items():
+        if value not in cdp_dict.keys() or cdp_dict[value] != key:
+            cdp_dict.update({key: value})
+    return cdp_dict
 
 pprint(transform_topology('topology.yaml'))
