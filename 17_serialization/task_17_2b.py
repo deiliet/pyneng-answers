@@ -32,24 +32,36 @@
 
 '''
 
-import pprint
 import yaml
 from pprint import pprint
 
 
 def transform_topology(yaml_filename):
-    buffer_dict = {}
+    # buffer_dict = {}
     cdp_dict = {}
     with open(yaml_filename) as file:
         yaml_file = yaml.safe_load(file)
-        for local_device in yaml_file:
+    """
+    One-line gaming MODE_ON :)
             for local_port in yaml_file[local_device]:
                 for remote_device in yaml_file[local_device][local_port]:
                     remote_port = yaml_file[local_device][local_port][remote_device]
                     buffer_dict[(local_device, local_port)] = (remote_device, remote_port)
+    """
+    buffer_dict = dict([[(local_device, local_port), (remote_device, remote_port)]
+                        for local_device, dict1_value in yaml_file.items()
+                        for local_port, dict2_value in dict1_value.items()
+                        for remote_device, remote_port in dict2_value.items()])
     for key, value in buffer_dict.items():
         if value not in cdp_dict.keys() or cdp_dict[value] != key:
             cdp_dict.update({key: value})
     return cdp_dict
 
-pprint(transform_topology('topology.yaml'))
+
+if __name__ == "__main__":
+
+    from draw_network_graph import draw_topology
+
+    pprint(transform_topology('topology.yaml'))
+    draw_topology(transform_topology('topology.yaml'))
+
