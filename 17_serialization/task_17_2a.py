@@ -37,6 +37,7 @@
 import os
 import re
 import yaml
+import sys
 from task_17_2 import parse_sh_cdp_neighbors
 
 
@@ -57,12 +58,14 @@ def generate_topology_from_cdp(list_of_files, save_to_filename=None):
                 if decision == 'yes':
                     break
                 if decision == 'no':
-                    raise ValueError('Change filename')
+                    sys.exit('Change filename')
+                    # raise ValueError('Change filename')
                 else:
                     pass
         if not re.search(regexp_yaml, save_to_filename):
             print('File is not yaml or whitespaces are existed')
-            raise ValueError('Change filename')
+            sys.exit('Change filename')
+            # raise ValueError('Change filename')
         with open(save_to_filename, 'w') as file:
             yaml.dump(topology_dict, file)
     return topology_dict
