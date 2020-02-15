@@ -60,7 +60,7 @@ def generate_topology_from_cdp(list_of_files, save_to_filename=None):
                 if decision == 'no':
                     sys.exit('Change filename')
                     # raise ValueError('Change filename')
-        if not re.search(regexp_yaml, save_to_filename):
+        if not re.match(regexp_yaml, save_to_filename):
             print('File is not yaml or whitespaces are existed')
             sys.exit('Change filename')
             # raise ValueError('Change filename')
