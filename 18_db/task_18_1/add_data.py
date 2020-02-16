@@ -33,7 +33,8 @@ def add_db_data(yaml_filename, dhcp_file_list, db_filename, switch_table, dhcp_t
             for dhcp_file in dhcp_file_list:
                 with open(dhcp_file) as file:
                     device_name = re.match(regexp_device, dhcp_file).group()
-                    dhcp_value_tuple = [(*item.groups(), device_name) for item in re.finditer(regexp_dhcp, file.read(), re.DOTALL)]
+                    # dhcp_value_tuple = [(*item.groups(), device_name) for item in re.finditer(regexp_dhcp, file.read(), re.DOTALL)]
+                    dhcp_value_tuple = [item.groups() + (device_name,) for item in re.finditer(regexp_dhcp, file.read(), re.DOTALL)]
                     for item in dhcp_value_tuple:
                         try:
                             sql_command_dhcp = f"INSERT INTO {dhcp_table} VALUES {item};"
