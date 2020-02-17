@@ -12,6 +12,7 @@ def add_to_switches(switches_list, switch_table, connection):
             connection.execute(sql_command_switches)
         except sqlite3.IntegrityError:
             print(f'While adding data: {item} Error is occurred: UNIQUE constraint failed: switches.hostname')
+    return None
 
 
 def add_to_dhcp(dhcp_file_list, regexp_device, regexp_dhcp, dhcp_table, connection):
@@ -28,16 +29,15 @@ def add_to_dhcp(dhcp_file_list, regexp_device, regexp_dhcp, dhcp_table, connecti
                     connection.execute(sql_command_dhcp)
                 except sqlite3.IntegrityError:
                     print(f'While adding data: {item} Error is occurred: UNIQUE constraint failed: dhcp.mac')
+    return None
 
 
 def add_db_data(yaml_filename, dhcp_file_list, db_filename, switch_table, dhcp_table):
-
     regexp_dhcp = r"(?P<mac_address>(?:[\dABCDEF]+:){5}[\dABCDEF]+) +" \
                   r"(?P<ip_address>(?:\d+.){3}\d+) +\d+.+?" \
                   r"(?P<vlan_id>\d+) +" \
                   r"(?P<interface_id>\S+)"
     regexp_device = r"\S+\d+"
-
     with open(yaml_filename) as file:
         switch_info_dict = yaml.safe_load(file)
         """
