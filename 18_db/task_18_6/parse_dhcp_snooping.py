@@ -2,6 +2,14 @@
 # -*- coding: utf-8 -*-
 import argparse
 import parse_dhcp_snooping_functions as pds
+import sys
+sys.argv += 'get --db dhcp_snooping.db -k vlan -v 10'.split()
+"""
+python3 parse_dhcp_snooping.py add -s --db dhcp_snooping.db switches.yml
+python3 parse_dhcp_snooping.py add --db dhcp_snooping.db sw1_dhcp_snooping.txt sw2_dhcp_snooping.txt sw3_dhcp_snooping.txt 
+python3 parse_dhcp_snooping.py get --db dhcp_snooping.db -k vlan -v 10
+"""
+
 
 # Default values:
 DFLT_DB_NAME = 'dhcp_snooping.db'
@@ -25,17 +33,8 @@ def add(args):
 
 
 def get(args):
-    if args.key and args.value:
-        print('Данные из БД: {}'.format(args.db_file))
-        print('Информация об устройствах с такими параметрами:',
-              args.key, args.value)
-        pds.get_data(args.db_file, args.key, args.value)
-    elif args.key or args.value:
-        print('Пожалуйста, введите два или ноль аргументов\n')
-        print(show_subparser_help('get'))
-    else:
-        print('В таблице dhcp такие записи:')
-        pds.get_all_data(args.db_file)
+        args_list = [args.key, args.value]
+        pds.get_data(args.db_file, args_list)
 
 
 def show_subparser_help(subparser_name):
@@ -80,6 +79,7 @@ get_parser.add_argument('-k', dest='key',
 get_parser.add_argument('-v', dest='value', help='значение параметра')
 get_parser.add_argument('-a', action='store_true', help='показать все содержимое БД')
 get_parser.set_defaults(func=get)
+
 
 if __name__ == '__main__':
     args = parser.parse_args()
